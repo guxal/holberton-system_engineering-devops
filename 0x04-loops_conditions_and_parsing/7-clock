@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # This script is displaying "Holberton School" 10 times
 i=0
-while [ $i -lt 12 ]
+while [ $i -lt 13 ]
 do
         echo "Hour: $i"
         j=1
@@ -11,9 +11,4 @@ do
                 j=$((j+1))
         done
         i=$((i+1))
-        if [ $i -eq 12 ]
-        then
-                echo "Hour: 12"
-        fi
-
 done
