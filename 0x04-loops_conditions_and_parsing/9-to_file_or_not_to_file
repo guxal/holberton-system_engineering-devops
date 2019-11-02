@@ -12,7 +12,7 @@ then
                 echo "holbertonschool file is empty"
         fi
 
-        if [ -r "$file" ]
+        if [ -f "$file" ]
         then
                 echo "holbertonschool is a regular file"
         fi
