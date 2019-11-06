@@ -1,5 +1,5 @@
 #!/bin/bash
-# This
+# This script that displays the content of the file /etc/passwd
 while read line
 do
 	echo "$line" | cut -d ":" -f1,3,6
