@@ -4,14 +4,14 @@ exec { 'apt-get update':
   command => '/usr/bin/apt-get update',
 }
 
-package { 'nginx install':
+package { 'nginx':
   ensure  => latest,
   require => Exec['apt-get update']
 }
 
 exec { 'nginx start':
   command  => 'etc/init.d/nginx start',
-  required => Exec['nginx install']
+  required => Exec['nginx']
 }
 
 exec { 'new html':
