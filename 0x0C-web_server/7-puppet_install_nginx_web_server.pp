@@ -1,25 +1,34 @@
-# install server nginx
-
-exec { 'apt-get update':
-  command => '/usr/bin/apt-get update',
+# execute 'apt-get update'
+exec { 'apt-update':                    # exec resource named 'apt-update'
+  command => '/usr/bin/apt-get update', # command this resource will run
 }
 
+# install nginx package
 package { 'nginx':
-  ensure  => latest,
-  require => Exec['apt-get update']
+  ensure  => installed,
+  require => Exec['apt-update'],        # require 'apt-update' before installing
 }
 
-exec { 'nginx start':
-  command  => 'etc/init.d/nginx start',
-  required => Exec['nginx']
+# ensure nginx service is running
+service { 'nginx':
+  ensure  => running,
 }
 
-exec { 'new html':
-  command  => 'echo "Holberton School" > /var/www/html/index.nginx-debian.html',
-  required => Exec['nginx start']
+# create directory if not exists
+exec { 'create-directory':
+  command => '/bin/mkdir -p /var/www/html/',
+  require => Package['nginx']           # require 'nginx' package before creating
 }
 
-exec { 'redirection':
-  command  => 'sed -i \'s|_;|_;\n\trewrite ^/redirect_me/$ https://www.youtube.com/watch?v=QH2-TGlwu4 permanent;|g\' /etc/nginx/sites-available/default',
-  required => Exec['new html']
+# ensure index file exists
+file { '/var/www/html/index.html':
+  ensure  => file,
+  content => 'Holberton School',        # index file
+  require => Exec['create-directory'],  # require directory for storage
+}
+
+# add redirect_me rewrite in site_available
+exec { 'redirect':
+  command => '/bin/sed -i \'s|_;|_;\n\trewrite ^/redirect_me/$ https://www.youtube.com/watch?v=QH2-TGlwu4 permanent;|g\' /etc/nginx/sites-available/default',
+  require => Package['nginx']
 }
