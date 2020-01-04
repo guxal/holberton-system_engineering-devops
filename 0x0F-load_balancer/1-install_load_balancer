@@ -2,17 +2,13 @@
 # This script install HAproxy
 sudo apt-get update -y
 sudo apt-get install haproxy=1.6.\* -y
-echo -e "frontend haproxynode
+echo "frontend haproxynode
         bind *:80
         mode http
-        default_backend backendnodes
+        default_backend backendnodes" >> /etc/haproxy/haproxy.cfg
 
-backend backendnodes
+echo "backend backendnodes
         balance roundrobin
-        option forwardfor
-        http-request set-header X-Forwarded-Port %[dst_port]
-        http-request add-header X-Forwarded-Proto https if { ssl_fc }
-        option httpchk HEAD / HTTP/1.1\r\nHost:localhost
         server node1 35.231.144.217:80 check
         server node2 35.237.94.227:80 check" >> /etc/haproxy/haproxy.cfg
 
