@@ -15,3 +15,5 @@ backend backendnodes
         option httpchk HEAD / HTTP/1.1\r\nHost:localhost
         server node1 35.231.144.217:80 check
         server node2 35.237.94.227:80 check" >> /etc/haproxy/haproxy.cfg
+
+sudo service haproxy restart
