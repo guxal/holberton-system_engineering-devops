@@ -3,7 +3,7 @@
 array=("www" "lb-01" "web-01" "web-02")
 
 print_text(){
-  dig "$1.$2" | grep -A1 'ANSWER SECTION:' | awk -v subdomains="$1" 'FNR == 2 { print "The subdomain " subdomains " is a " $4 " record and points to " $5 }'
+  dig "$1"."$2"|awk -v sbd="$1" '/ANSWER SECTION:/{getline; print "The subdomain " sbd " is a " $4 " record and points to " $5}'
 }
 
 if [ $# -eq 2 ]
