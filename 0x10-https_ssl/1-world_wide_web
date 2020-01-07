@@ -1,0 +1,23 @@
+#!/bin/bash
+# This script review subdomains
+print_text(){
+  # $1 = subdomain example www
+  # $4 = record example A
+  # $5 = ip address example 0.0.0.0
+  sub=$(echo "$1" | cut -d "." -f1)
+  printf "The subdomain %s is a %s record and points to %s\n" "$sub" "$4" "$5"
+}
+
+array=("www" "lb-01" "web-01" "web-02")
+
+if [ $# -eq 2 ]
+then
+  # shellcheck disable=SC2046
+  print_text $(dig $2.$1 | grep -A1 'ANSWER SECTION:' | awk 'FNR == 2 { print }')
+else
+  for i in "${array[@]}"
+  do
+    # shellcheck disable=SC2046
+    print_text $(dig $i.$1 | grep -A1 'ANSWER SECTION:' | awk 'BEGIN { FNR == 2 } END { print }')
+  done
+fi
