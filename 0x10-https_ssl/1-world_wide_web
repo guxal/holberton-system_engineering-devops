@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # This script review subdomains
 array=("www" "lb-01" "web-01" "web-02")
 
