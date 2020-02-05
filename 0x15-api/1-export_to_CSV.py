@@ -17,7 +17,7 @@ if __name__ == "__main__":
         user = requests.get(url + routes[0].format(id))
         allTask = requests.get(url + routes[1].format(id))
 
-        name = user.json().get('name')
+        name = user.json().get('username')
 
         with open(argv[1] + '.csv', 'w', newline='')as csvfile:
             csvwriter = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
