@@ -23,4 +23,4 @@ if len(argv) > 1:
           .format(name, numberDoneTask, numberAllTask))
 
     for done in doneTask.json():
-        print('\t' + done.get('title'))
+        print('\t ' + done.get('title'))
