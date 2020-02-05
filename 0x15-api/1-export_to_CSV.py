@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-'''This script take data of the employee test'''
+'''This script take data of the employee test and
+   create format csv with info all task '''
 import csv
 import requests
 import sys
