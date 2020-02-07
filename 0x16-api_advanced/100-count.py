@@ -63,4 +63,4 @@ def count_words(subreddit, word_list, after=None, obj={}):
             print_result(obj)
         else:
             count_words(subreddit, word_list, data.get('after'), obj)
-    return obj
+    #return obj
