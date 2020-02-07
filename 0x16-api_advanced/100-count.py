@@ -6,6 +6,12 @@ import re
 import requests
 
 
+def print_result(obj):
+    for elem in sorted(obj.items()):
+        print('{}: {}'.format(elem[0], elem[1]))
+    return obj
+
+
 def count_words(subreddit, word_list, after=None, obj={}):
     user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3)\
                   AppleWebKit/537.36 (KHTML, like Gecko)\
@@ -28,9 +34,11 @@ def count_words(subreddit, word_list, after=None, obj={}):
         for c in childrens:
             for word in word_list:
                 count = sum(1 for _ in re.finditer(r'\b%s\b' % re.escape(word),
-                            c.get('data').get('title')))
+                            c.get('data').get('title'), re.IGNORECASE))
                 if count > 0:
                     obj[word] = count
+        if data.get('after') is None:
+            print_result(obj)
 
         count_words(subreddit, word_list, data.get('after'), obj)
     else:
@@ -42,7 +50,7 @@ def count_words(subreddit, word_list, after=None, obj={}):
         for c in childrens:
             for word in word_list:
                 count = sum(1 for _ in re.finditer(r'\b%s\b' % re.escape(word),
-                            c.get('data').get('title')))
+                            c.get('data').get('title'), re.IGNORECASE))
                 if count > 0:
                     if word in obj:
                         obj[word] += count
@@ -50,9 +58,7 @@ def count_words(subreddit, word_list, after=None, obj={}):
                         obj[word] = count
 
         if data.get('after') is None:
-            for elem in sorted(obj.items()):
-                print('{}: {}'.format(elem[0], elem[1]))
-            return obj
+            print_result(obj)
         else:
             count_words(subreddit, word_list, data.get('after'), obj)
     return obj
