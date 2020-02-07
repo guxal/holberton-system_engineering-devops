@@ -7,6 +7,8 @@ import requests
 
 
 def print_result(obj):
+    if not obj:
+        return obj
     for elem in sorted(obj.items()):
         print('{}: {}'.format(elem[0], elem[1]))
     return obj
